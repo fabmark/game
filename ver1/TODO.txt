@@ -7,5 +7,5 @@ Currency system
 Enemy AI
 Combat sys
 Inventory - keyboard
-Leveling - attributes (dnd?)
+Leveling - attributes (dnd?) (main stat +5, többi +1)
 Loot system, boss item drop
