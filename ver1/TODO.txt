@@ -1,11 +1,15 @@
 ---- Feladatok listája ----
 
 Menu
-Collision
 Save / Load
-Currency system
+
+Collision
 Enemy AI
 Combat sys
+
+Currency system
 Inventory - keyboard
-Leveling - attributes (dnd?) (main stat +5, többi +1)
 Loot system, boss item drop
+
+Leveling - attributes (dnd?) (main stat +5, többi +1)
+
