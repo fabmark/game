@@ -1,6 +1,6 @@
 ---- Feladatok listája ----
 
-Menu
+Menu, word
 Save / Load
 Player: Leveling - attributes (dnd?) (main stat +5, többi +1)
 
