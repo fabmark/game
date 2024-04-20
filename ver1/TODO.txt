@@ -1,1 +1,11 @@
 ---- Feladatok listája ----
+
+Menu
+Collision
+Save / Load
+Currency system
+Enemy AI
+Combat sys
+Inventory - keyboard
+Leveling
+Loot system, boss item drop
