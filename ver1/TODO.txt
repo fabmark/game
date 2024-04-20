@@ -1,7 +1,7 @@
 ---- Feladatok listája ----
 
-Menu, word
-Save / Load
+Menu, Save / Load
+World
 Player: Leveling - attributes (dnd?) (main stat +5, többi +1)
 
 Collision
