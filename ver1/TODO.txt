@@ -2,6 +2,7 @@
 
 Menu
 Save / Load
+Leveling - attributes (dnd?) (main stat +5, többi +1)
 
 Collision
 Enemy AI
@@ -11,5 +12,5 @@ Currency system
 Inventory - keyboard
 Loot system, boss item drop
 
-Leveling - attributes (dnd?) (main stat +5, többi +1)
+
 
