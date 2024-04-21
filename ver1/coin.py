@@ -1,5 +1,4 @@
 import pygame
-import time
 
 class Coin():
     def __init__(self, x, y):
@@ -25,4 +24,4 @@ class Coin():
             self.image = self.img_array[self.index]
             self.index += 1
         screen.blit(self.image, self.rect)
-        time.sleep(0.075)
+        pygame.time.delay(75)
