@@ -109,6 +109,7 @@ while run:
         coin.animate()
 
     player1.update(screen_height, screen, world)
+    # hozzáadtam a world-öt a player update metódusába és átadom itt azt is neki, innen kapja meg a tile-ek rect-jét a player
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
