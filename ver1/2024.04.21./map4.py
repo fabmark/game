@@ -11,4 +11,4 @@ def object_positions():
     coin_positions = []  # Example coin positions
     return player_position, coin_positions
 
-world_data = load_world_from_file("map2.txt")
+world_data = load_world_from_file("map4.txt")

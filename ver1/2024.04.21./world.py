@@ -1,25 +1,24 @@
 import pygame
 from coin import Coin
 
-screen_width = 1000
-screen_height = 1000
+screen_width = 990
+screen_height = 990
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 class World():
     def __init__(self, data):
         self.tile_list = []
-        tile_size = 20
+        tile_size = 30
 
         #load images
         ground_img = pygame.image.load('img/ground.png')
         wall_img = pygame.image.load('img/wall.png')
         black_img = pygame.image.load('img/black.png')
-        entrance_bot_img = pygame.image.load('img/entrance_bot.png')
-        entrance_top_img = pygame.image.load('img/entrance_top.png')
-        entrance_mid_img = pygame.image.load('img/entrance_mid.png')
+        spikes_img = pygame.image.load('img/spikes.png')
+        trap_img = pygame.image.load('img/trap.png')
         sword_img = pygame.image.load('img/sword.png')
-        coin_img = pygame.image.load('img/0.png')
+        blood_img = pygame.image.load('img/blood.png')
 
         row_count = 0
         for row in data:
@@ -47,21 +46,21 @@ class World():
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
                 if tile == 4:
-                    img = pygame.transform.scale(entrance_top_img, (tile_size, tile_size))
+                    img = pygame.transform.scale(blood_img, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
                 if tile == 5:
-                    img = pygame.transform.scale(entrance_mid_img, (tile_size, tile_size))
+                    img = pygame.transform.scale(trap_img, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
                 if tile == 6:
-                    img = pygame.transform.scale(entrance_bot_img, (tile_size, tile_size))
+                    img = pygame.transform.scale(spikes_img, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -74,15 +73,6 @@ class World():
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
-                if tile == 8:
-                    img = pygame.transform.scale(coin_img, (tile_size, tile_size))
-                    img_rect = img.get_rect()
-                    img_rect.x = col_count * tile_size
-                    img_rect.y = row_count * tile_size
-                    tile = (img, img_rect)
-                    self.tile_list.append(tile)
-                    # Use Coin class
-                    # coin = Coin(col_count * tile_size, row_count * tile_size)
                 col_count += 1
             row_count += 1
 
