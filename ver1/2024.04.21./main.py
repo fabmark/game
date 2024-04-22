@@ -28,16 +28,30 @@ tile_size = 30
 #load images
 bg_img = pygame.image.load('img/bg.png')
 
-def display_text(txt, x, y, font_size=30):
-    font = pygame.font.Font(None, font_size)
-    text = font.render(txt, True, (255, 0, 0))
-    screen.blit(text, (x, y))
+class Display():
+    def __init__(self,txt, x, y, font_size=30):
+        self.text = txt
+        font = pygame.font.Font(None, font_size)
+        text = font.render(txt, True, (255, 0, 0))
+        screen.blit(text, (x, y))
+    def update(self, txt, x, y, font_size=30):
+        self.text = txt
+        font = pygame.font.Font(None, font_size)
+        text = font.render(txt, True, (255, 0, 0))
+        screen.blit(text, (x, y))
+   # def display_text(txt, x, y, font_size=30):
+    #    font = pygame.font.Font(None, font_size)
+     #   text = font.render(txt, True, (255, 0, 0))
+      #  screen.blit(text, (x, y))
+
+
 
 def map_choice():
     choice = ''
     while True:
         screen.fill((0, 0, 0))
-        display_text("Which map do you choose? " + choice, 350, 500)
+        question = Display("Which map do you choose?", 350, 500)
+        input = Display(choice, 650, 500)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -45,6 +59,8 @@ def map_choice():
                     return int(choice)
                 elif event.key == pygame.K_BACKSPACE:
                     choice = choice[:-1]
+                    input.update(choice, 650, 500)
+                    print(choice)
                 elif event.key == pygame.K_ESCAPE:
                     return False
                 else:
@@ -79,7 +95,7 @@ coins = [Coin(*pos) for pos in coin_positions]  # Create coins from positions
 
 run = True
 update_count = 0
-max_updates = 5  # Adjust this value to suit your needs
+max_updates = 5
 
 while run:
     clock.tick(fps)
@@ -101,6 +117,7 @@ while run:
                 player1.lvlup()
             if event.key == pygame.K_ESCAPE:
                 run = False
+
 
     pygame.display.update()
 
