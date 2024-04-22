@@ -43,7 +43,7 @@ class Player():
 			self.onground = False			
 			
 			print('jumping')
-		#elif key[pygame.K_SPACE] and self.onground == False and self.jumped == True:
+		#átírtam az ugrást, hogy a collisiont érzékelje és csak akkor ugorhasson, ha a talajjal ütközik
 			
 		
 			
@@ -104,6 +104,7 @@ class Player():
 		pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)	
 
 		#check for collision
+		# a collision egy az egyben jó volt, csak elöször véletlen a lvlup()-ba raktam XD
 		for tile in world.tile_list:
 			#check for collision in x direction
 			if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
@@ -118,6 +119,7 @@ class Player():
 				elif self.vel_y >= 0:
 					dy = tile[1].top - self.rect.bottom
 					self.vel_y = 0
+					# ezt írtam hozzá, hogy ha a talajjal érintkezik akkor igaz legyen az onground ami engedi ugrani.
 					self.onground = True
 					print('on ground')
 					
