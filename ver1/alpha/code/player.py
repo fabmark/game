@@ -42,7 +42,7 @@ class Player():
 		print('szint:',self.lvl)
 
 
-    #attributúmoknak majd kellenek getterek/setterek (pl. int) - Márk
+    	#attributúmoknak majd kellenek getterek/setterek (pl. int) a save és a load végett - Márk
 	def get_current_map(self):
 		return self.__current_map
 
