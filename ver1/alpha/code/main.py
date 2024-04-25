@@ -76,12 +76,12 @@ while run:
         
         if player.get_exit_reached():
             player.set_current_map()
-        if player.get_current_map() <= 4:
-            map.set_map(player.get_current_map())
-            x = player.get_current_map()
-            world = World(map.load_world_from_file())
-            player = Player(*map.get_player_pos(x))
-            player.set_exit_reached(False)
+            if player.get_current_map() <= 4:
+                map.set_map(player.get_current_map())
+                x = player.get_current_map()
+                world = World(map.load_world_from_file())
+                player = Player(*map.get_player_pos(x))
+                player.set_exit_reached(False)
     
 
 
