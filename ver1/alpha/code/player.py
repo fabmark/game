@@ -91,13 +91,13 @@ class Player():
 		return self.__char
 
 	def get_hp(self):
-		return str(self.__hp)
+		return self.__hp
 	
 	def set_hp(self, value):
 		self.__hp += value
 
 	def get_lvl(self):
-		return str(self.lvl)
+		return self.lvl
 
 	def set_lvl(self, value):
 		self.lvl += value
