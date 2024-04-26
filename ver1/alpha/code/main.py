@@ -43,20 +43,16 @@ coins = [Coin(*pos) for pos in coins_pos]
 myMenu = Menu(screen)
 
 run = True
+'''
 update_count = 0
 max_updates = 5
+'''
+current_map = 0
 
 while run:
     
     clock.tick(fps)
     screen.blit(bg_img, (0, 0))
-
-    '''
-    for coin in coins:
-        coin.counter += 1
-        coin.animate()
-    '''
-    
     
 
     if myMenu.get_visible():
@@ -68,19 +64,34 @@ while run:
             pass
         if myMenu.get_play_btn().draw():
             myMenu.set_visible(False)
+            continue
     else:
         
+        for coin in coins:
+            coin.counter += 1
+            coin.animate()
+
         world.draw()
-        player.update(SCREEN_HEIGHT, screen, world)
+        player.update(SCREEN_HEIGHT, screen, world,coins)
         # hozzáadtam a world-öt a player update metódusába és átadom itt azt is neki, innen kapja meg a tile-ek rect-jét a player
         
+        #ez veszi le a coin-t - Márk
+        if player.get_coin_touched():
+            for coin in coins:
+                if player.get_touched_coin_x() == coin.rect.x:
+                    coins.remove(coin)
+            player.set_coin_touched(False)
+            player.set_touched_coin_x(0)
+
+
         if player.get_exit_reached():
-            player.set_current_map()
-            if player.get_current_map() <= 4:
-                map.set_map(player.get_current_map())
-                x = player.get_current_map()
+            current_map += 1
+            if current_map <= 4:
+                map.set_map(current_map)
+                x = current_map
                 world = World(map.load_world_from_file())
                 player = Player(*map.get_player_pos(x))
+                player.set_current_map(current_map)
                 player.set_exit_reached(False)
     
 
