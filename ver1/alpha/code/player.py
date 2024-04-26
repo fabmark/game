@@ -37,7 +37,7 @@ class Player():
 		self.__int = 1
 		self.__char = 2
 		self.__xp = 0
-		self.__hp = 10
+		self.__hp = 1
 		self.__armor = 5
 
 
