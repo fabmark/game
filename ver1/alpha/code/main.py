@@ -75,18 +75,11 @@ while run:
         player.update(SCREEN_HEIGHT, screen, world,coins)
         # hozzáadtam a world-öt a player update metódusába és átadom itt azt is neki, innen kapja meg a tile-ek rect-jét a player
         
-        #ez veszi le a coin-t - Márk
-        if player.get_coin_touched():
-            for coin in coins:
-                if player.get_touched_coin_x() == coin.rect.x:
-                    coins.remove(coin)
-            player.set_coin_touched(False)
-            player.set_touched_coin_x(0)
-
-
         if player.get_exit_reached():
             current_map += 1
             if current_map <= 4:
+                coins_pos = map.get_coins_pos(current_map + 1)
+                coins = [Coin(*pos) for pos in coins_pos]
                 map.set_map(current_map)
                 x = current_map
                 world = World(map.load_world_from_file())
