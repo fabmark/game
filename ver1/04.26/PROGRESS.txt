@@ -1,0 +1,9 @@
+ebben a packban van:
+player attribútumok
+player leveling/XP
+coin collision
+interact button funkció nélkül
+interakt button felett kiíródik a tile neve
+
+nem sikerült:
+tile-t eltűntetni/kitörölni/0-ra változtatni, ha E betűt nyomunk.
