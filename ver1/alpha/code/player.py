@@ -57,24 +57,6 @@ class Player():
 	def set_exit_reached(self, value):
 		self.__exit_reached = value
 
-	def get_coin_touched(self):
-		#print(self.__coin_touched)
-		return self.__coin_touched
-
-	def set_coin_touched(self, value):
-		self.__coin_touched = value
-
-	def get_touched_coin_x(self):
-		return self.__touched_coin_x
-
-	def set_touched_coin_x(self,value):
-		self.__touched_coin_x = value
-
-	def get_touched_coin_y(self):
-		return self.__touched_coin_y
-
-	def set_touched_coin_y(self,value):
-		self.__touched_coin_y = value
 
 	def update(self,screen_height,screen,world,coins):
 		dx = 0
