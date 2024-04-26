@@ -27,8 +27,7 @@ class Player():
 		# __ <-- miatt privát láthatóságúak a változók - Márk
 		self.__exit_reached = False
 		self.__current_map = 0
-		self.__coin_touched = False
-		self.__touched_coin_x = 0
+		self.__currency = 0
 		self.__cast = 'knight'
 		self.__strength = 3
 		self.__dex = 2
@@ -59,6 +58,7 @@ class Player():
 		self.__exit_reached = value
 
 	def get_coin_touched(self):
+		#print(self.__coin_touched)
 		return self.__coin_touched
 
 	def set_coin_touched(self, value):
@@ -69,6 +69,12 @@ class Player():
 
 	def set_touched_coin_x(self,value):
 		self.__touched_coin_x = value
+
+	def get_touched_coin_y(self):
+		return self.__touched_coin_y
+
+	def set_touched_coin_y(self,value):
+		self.__touched_coin_y = value
 
 	def update(self,screen_height,screen,world,coins):
 		dx = 0
@@ -135,12 +141,6 @@ class Player():
 		screen.blit(self.image, self.rect)	
 		#pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)	
 
-		#csekkolja a coin collision-t - Márk
-		for coin in coins:
-			if coin.rect.x == (self.rect.x + dx):
-				self.__coin_touched = True
-				self.__touched_coin_x = coin.rect.x
-
 		#check for collision
 		# a collision egy az egyben jó volt, csak elöször véletlen a lvlup()-ba raktam XD
 		for tile in world.tile_list:
@@ -171,6 +171,15 @@ class Player():
 		#update player coordinates
 		self.rect.x += dx
 		self.rect.y += dy
+		
+		#coin felvétel - Márk
+		for coin in coins:
+			if coin.rect.colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+				coins.remove(coin)
+				self.__currency += 1
+				print('MONEY: %d ' % self.__currency)
+
+
 
 	def lvlup(self):		
 		self.lvl += 1
