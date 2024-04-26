@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from coin import Coin
 
 class Player():
 	def __init__(self, x, y):
@@ -26,6 +27,8 @@ class Player():
 		# __ <-- miatt privát láthatóságúak a változók - Márk
 		self.__exit_reached = False
 		self.__current_map = 0
+		self.__coin_touched = False
+		self.__touched_coin_x = 0
 		self.__cast = 'knight'
 		self.__strength = 3
 		self.__dex = 2
@@ -42,12 +45,12 @@ class Player():
 		print('szint:',self.lvl)
 
 
-    	#attributúmoknak majd kellenek getterek/setterek (pl. int) a save és a load végett - Márk
+    #attributúmoknak majd kellenek getterek/setterek (pl. int) - Márk
 	def get_current_map(self):
 		return self.__current_map
 
-	def set_current_map(self):
-		self.__current_map = self.__current_map + 1
+	def set_current_map(self, value):
+		self.__current_map = value
 
 	def get_exit_reached(self):
 		return self.__exit_reached
@@ -55,8 +58,19 @@ class Player():
 	def set_exit_reached(self, value):
 		self.__exit_reached = value
 
+	def get_coin_touched(self):
+		return self.__coin_touched
 
-	def update(self,screen_height,screen,world):
+	def set_coin_touched(self, value):
+		self.__coin_touched = value
+
+	def get_touched_coin_x(self):
+		return self.__touched_coin_x
+
+	def set_touched_coin_x(self,value):
+		self.__touched_coin_x = value
+
+	def update(self,screen_height,screen,world,coins):
 		dx = 0
 		dy = 0
 		walk_cooldown = 5
@@ -64,7 +78,7 @@ class Player():
 		#get keypresses
 		key = pygame.key.get_pressed()
 		if key[pygame.K_SPACE] and self.onground == True:
-			self.vel_y = -14
+			self.vel_y = -16
 			self.onground = False			
 			
 			#print('jumping')
@@ -119,7 +133,13 @@ class Player():
 
 		#draw player onto screen
 		screen.blit(self.image, self.rect)	
-		pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)	
+		#pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)	
+
+		#csekkolja a coin collision-t - Márk
+		for coin in coins:
+			if coin.rect.x == (self.rect.x + dx):
+				self.__coin_touched = True
+				self.__touched_coin_x = coin.rect.x
 
 		#check for collision
 		# a collision egy az egyben jó volt, csak elöször véletlen a lvlup()-ba raktam XD
