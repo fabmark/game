@@ -1,4 +1,6 @@
 import pygame
+import json
+import os
 from pygame.locals import *
 from coin import Coin
 
@@ -30,7 +32,7 @@ class Player():
 		self.__currency = 0
 		self.__inventory = []
 		self.__cast = 'knight'
-		self.__strength = 3
+		self.__str = 3
 		self.__dex = 2
 		self.__int = 1
 		self.__char = 2
@@ -58,17 +60,87 @@ class Player():
 	def set_exit_reached(self, value):
 		self.__exit_reached = value
 
-	def get_hp(self):
-        	return str(self.__hp)
-    	def set_hp(self, value):
-        	self.__hp += value
-
-    	def get_lvl(self):
-        	return str(self.lvl)
-    	def set_lvl(self, value):
-        	self.lvl += value
-
+	def set_armor(self, value):
+		self.__armor = value
 	
+	def get_armor(self):
+		return self.__armor
+
+	def set_str(self, value):
+		self.__str = value
+
+	def get_str(self):
+		return self.__str
+
+	def set_dex(self, value):
+		self.__dex = value
+
+	def get_dex(self):
+		return self.__dex
+
+	def set_int(self, value):
+		self.__int = value
+
+	def get_int(self):
+		return self.__int
+
+	def set_char(self, value):
+		self.__char = value
+
+	def set_char(self):
+		return self.__char
+
+	def get_hp(self):
+		return str(self.__hp)
+	
+	def set_hp(self, value):
+		self.__hp += value
+
+	def get_lvl(self):
+		return str(self.lvl)
+
+	def set_lvl(self, value):
+		self.lvl += value
+
+	def set_cast(self, value):
+		self.__cast = value
+	
+	def get_cast(self):
+		return self.__cast
+
+	def set_xp(self, value):
+		self.__xp = value
+	
+	def get_xp(self):
+		return self.__xp
+
+	def load(self):
+		pass
+	
+	def save(self):
+		file_path = '../data/player_data.json'
+
+		data = {
+			"class": "knight",
+			"level": 1,
+			"xp": 0,
+			"hp": 10,
+			"armor": 5,
+			"str": 3,
+			"dex": 2,
+			"int": 10,
+			"char": 2
+		}
+
+		if os.path.exists(file_path):
+			with open('player_data.json', 'w') as outfile:
+				json.dump(data, outfile, indent=4)
+		else:
+			with open('player_data.json', 'a') as outfile:
+				json.dump(data, outfile, indent=4)
+		
+		pass
+
 	def update(self,screen_height,screen,world,coins):
 		dx = 0
 		dy = 0
