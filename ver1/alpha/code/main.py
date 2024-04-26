@@ -17,9 +17,9 @@ SCREEN_WIDTH = 990
 tile_size = 30
 
 #kis háttér zene - Márk
-pygame.mixer.music.load('../assets/menu_theme.mp3')
-pygame.mixer.music.set_volume(0.05)
-pygame.mixer.music.play(-1)
+main_sound = pygame.mixer.Sound('../assets/menu_theme.mp3')
+main_sound.set_volume(0.05)
+main_sound.play(-1)
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Platformer")
@@ -66,7 +66,7 @@ while run:
             myMenu.set_visible(False)
             continue
     else:
-        
+
         for coin in coins:
             coin.counter += 1
             coin.animate()
