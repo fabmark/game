@@ -59,9 +59,9 @@ class Player():
 		self.__exit_reached = value
 
 	def get_hp(self):
-        	return str(self.hp)
+        	return str(self.__hp)
     	def set_hp(self, value):
-        	self.hp += value
+        	self.__hp += value
 
     	def get_lvl(self):
         	return str(self.lvl)
