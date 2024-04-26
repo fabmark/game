@@ -70,7 +70,10 @@ while run:
         for coin in coins:
             coin.counter += 1
             coin.animate()
-
+        
+        hp_felirat = Display('Health: ' + player.get_hp(), 50, 50, 30)
+        lvl_felirat = Display('Level: ' + player.get_lvl(), 180, 50, 30)
+        
         world.draw()
         player.update(SCREEN_HEIGHT, screen, world,coins)
         # hozzáadtam a world-öt a player update metódusába és átadom itt azt is neki, innen kapja meg a tile-ek rect-jét a player
