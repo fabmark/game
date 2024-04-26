@@ -14,13 +14,13 @@ class Maps():
 
 
     def get_player_pos(self, value):
-        player_pos = [(1,(100,500)),(2,(100,500)),(3,(100,500)),(4,(100,500)),(5,(400,500))]
+        player_pos = [(1,(30,910)),(2,(140,500)),(3,(100,500)),(4,(100,500)),(5,(400,500))]
         for elem in player_pos:
             if elem[0] == (value + 1):
                 return elem[1]
 
     def get_coins_pos(self, value):
-        coins_pos = [(1,(60, 520)), (1,(80, 520))]
+        coins_pos = [(1,(60, 500)), (1,(90, 500)), (2,(50,200)),(2,(80,200))]
         temp_arr = []
         for coin in coins_pos:
             if coin[0] == value:
