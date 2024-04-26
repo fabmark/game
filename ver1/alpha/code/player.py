@@ -87,7 +87,7 @@ class Player():
 	def set_char(self, value):
 		self.__char = value
 
-	def set_char(self):
+	def get_char(self):
 		return self.__char
 
 	def get_hp(self):
