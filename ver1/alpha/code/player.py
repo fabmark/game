@@ -145,25 +145,28 @@ class Player():
 		# a collision egy az egyben jó volt, csak elöször véletlen a lvlup()-ba raktam XD
 		for tile in world.tile_list:
 			#check for collision in x direction
-			if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
-				dx = 0
-				#csekkolja h a pálya exit megvan-e találva - Márk
-				if tile[2] == "exit":
-					self.set_exit_reached(True)
-	
-			#check for collision in y direction
-			if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
-				#check if below the ground i.e. jumping
-				if self.vel_y < 0:
-					dy = tile[1].bottom - self.rect.top
-					self.vel_y = 0
-				#check if above the ground i.e. falling
-				elif self.vel_y >= 0:
-					dy = tile[1].top - self.rect.bottom
-					self.vel_y = 0
-					# ezt írtam hozzá, hogy ha a talajjal érintkezik akkor igaz legyen az onground ami engedi ugrani.
-					self.onground = True
-					#print('on ground')
+			if tile[2] == "entrance":
+				continue
+			else:
+				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+					dx = 0
+					#csekkolja h a pálya exit megvan-e találva - Márk
+					if tile[2] == "exit":
+						self.set_exit_reached(True)
+		
+				#check for collision in y direction
+				if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+					#check if below the ground i.e. jumping
+					if self.vel_y < 0:
+						dy = tile[1].bottom - self.rect.top
+						self.vel_y = 0
+					#check if above the ground i.e. falling
+					elif self.vel_y >= 0:
+						dy = tile[1].top - self.rect.bottom
+						self.vel_y = 0
+						# ezt írtam hozzá, hogy ha a talajjal érintkezik akkor igaz legyen az onground ami engedi ugrani.
+						self.onground = True
+						#print('on ground')
 										
 		#update player coordinates
 		self.rect.x += dx
