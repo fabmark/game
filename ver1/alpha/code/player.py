@@ -28,6 +28,7 @@ class Player():
 		self.__exit_reached = False
 		self.__current_map = 0
 		self.__currency = 0
+		self.__inventory = []
 		self.__cast = 'knight'
 		self.__strength = 3
 		self.__dex = 2
@@ -158,6 +159,9 @@ class Player():
 		for coin in coins:
 			if coin.rect.colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
 				coins.remove(coin)
+				coin_sound = pygame.mixer.Sound('../assets/coin_se.mp3')
+				coin_sound.set_volume(0.1)
+				coin_sound.play()
 				self.__currency += 1
 				print('MONEY: %d ' % self.__currency)
 
