@@ -58,7 +58,17 @@ class Player():
 	def set_exit_reached(self, value):
 		self.__exit_reached = value
 
+	def get_hp(self):
+        	return str(self.hp)
+    	def set_hp(self, value):
+        	self.hp += value
 
+    	def get_lvl(self):
+        	return str(self.lvl)
+    	def set_lvl(self, value):
+        	self.lvl += value
+
+	
 	def update(self,screen_height,screen,world,coins):
 		dx = 0
 		dy = 0
