@@ -24,6 +24,29 @@ class Button():
             self.screen.blit(self.image, self.rect)
             return action
         
+class Pause():
+     def __init__(self,screen):
+        self.play_btn = Button(990 // 2 - 100, 990 // 2 + 50, pygame.transform.scale(pygame.image.load('../assets/play_btn.png'),(150,90)), screen)
+        self.exit_btn = Button(990 // 2 - 100, 990 // 2 + 250, pygame.transform.scale(pygame.image.load('../assets/exit_btn.png'),(150,90)), screen)
+        self.menu_btn = Button(990 // 2 - 100, 990 // 2 + 150, pygame.transform.scale(pygame.image.load('../assets/menu_btn.png'),(150,90)), screen)
+        self.save_btn = None
+        self.__visible = True
+
+     def get_visible(self):
+          return self.__visible
+    
+     def set_visible(self, value):
+         self.__visible = value
+
+     def get_play_btn(self):
+         return self.play_btn
+     
+     def get_menu_btn(self):
+          return self.menu_btn
+
+     def get_exit_btn(self):
+         return self.exit_btn
+
 
 class Menu():
     def __init__(self,screen):

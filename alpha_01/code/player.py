@@ -111,6 +111,12 @@ class Player():
 
 
 		#print('szint:',self.lvl)
+	def reset_progress(self):
+		
+		if os.path.exists('../data/player_data.json'):
+			os.remove('../data/player_data.json')
+		
+
   
 	def set_pressinge(self, value):
 		self.pressinge == value
