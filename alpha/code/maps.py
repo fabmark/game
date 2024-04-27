@@ -14,7 +14,7 @@ class Maps():
 
 
     def get_player_pos(self, value):
-        player_pos = [(0,(30,910)),(2,(140,500)),(3,(100,500)),(4,(100,500)),(5,(400,500))]
+        player_pos = [(0,(30,910)),(1,(30,910)),(2,(140,500)),(3,(100,500)),(4,(100,500)),(5,(400,500))]
         for elem in player_pos:
             if elem[0] == (value + 1):
                 return elem[1]

@@ -53,7 +53,7 @@ class Player():
 		self.itemname = ''
 		self.__currency = 0
 		self.__inventory = []
-		self.__cast = 'knight'
+		self.__class = 'Hobo'
 		self.__str = 3
 		self.__dex = 2
 		self.__int = 1
@@ -72,7 +72,7 @@ class Player():
     #attributúmoknak majd kellenek getterek/setterek (pl. int) - Márk
 	def lvlup(self):		
 		self.lvl += 1
-		if self.__cast == 'knight':
+		if self.__class == 'knight':
 			self.__str += 3
 			self.__int += 1
 			self.__dex += 2
@@ -122,11 +122,11 @@ class Player():
 	def set_xp(self, value):
 		self.__xp += value
 	
-	def set_cast(self, value):
-		self.__cast = value
+	def set_class(self, value):
+		self.__class = value
 	
-	def get_cast(self):
-		return self.__cast
+	def get_class(self):
+		return self.__class
 	
 	def set_armor(self, value):
 		self.__armor = value
@@ -244,7 +244,7 @@ class Player():
 			elif tile[2] =="sword":
 				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):	
 					self.interact = True
-					self.itemname = 'sword'			
+					self.itemname = 'sword'		
 			elif tile[2] == "bow":
 				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):	
 					self.interact = True

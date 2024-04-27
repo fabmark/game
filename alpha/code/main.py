@@ -38,7 +38,7 @@ class Display():
 
 map = Maps()
 world = World(map.load_world_from_file())
-player = Player(*map.get_player_pos(1))
+player = Player(*map.get_player_pos(0))
 coins_pos = map.get_coins_pos(1)
 coins = [Coin(*pos) for pos in coins_pos]
 myMenu = Menu(screen)
@@ -81,6 +81,9 @@ while run:
         int_felirat = Display('Intelligence: ' + str(player.get_int()), 500,80,30)
         char_felirat = Display('Charisma: ' + str(player.get_char()), 650,50,30)
         dex_felirat = Display('Dexterity: ' + str(player.get_dex()), 650,80,30)
+        class_felirat =Display('Class: ' + (player.get_class()), 800,80,30)
+        if player.get_class() == 'Hobo':
+            choose_class = Display('Choose your class!', 130,880,30)  
         if player.get_interact() == True:
             item_felirat = Display(player.get_itemname(),player.get_x(),player.get_y()-80, 20)
 
@@ -114,10 +117,28 @@ while run:
             if event.key == pygame.K_ESCAPE:
                 run = False
             if event.key == pygame.K_e:
-                player.set_pressinge(True)
-                print('e')
-        else:
-            player.set_pressinge(False)
+                if player.get_interact() and player.get_itemname() == 'sword':
+                    print("Sword equipped")
+                    player.set_class('knight')
+                    for tile in list(world.tile_list):
+                        if tile[2] == "sword" or tile[2] == "staff" or tile[2] == 'bow':
+                            world.tile_list.remove(tile)
+                elif player.get_interact() and player.get_itemname() == 'bow':
+                    print("bow equipped")
+                    player.set_class('Rogue')
+                    for tile in list(world.tile_list):
+                        if tile[2] == "sword" or tile[2] == "staff" or tile[2] == 'bow':
+                            world.tile_list.remove(tile)
+                elif player.get_interact() and player.get_itemname() == 'staff':
+                    print("staff equipped")
+                    player.set_class('Mage')
+                    for tile in list(world.tile_list):
+                        if tile[2] == "sword" or tile[2] == "staff" or tile[2] == 'bow':
+                            world.tile_list.remove(tile)
+                #player.set_pressinge(True)
+                #print('e')
+       # else:
+           # player.set_pressinge(False)
 
     pygame.display.update()
 
