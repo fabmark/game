@@ -12,6 +12,7 @@ pygame.mixer.init()
 
 clock = pygame.time.Clock()
 fps = 60
+pause = False
 
 SCREEN_HEIGHT = 990
 SCREEN_WIDTH = 990
@@ -42,6 +43,8 @@ player = Player(*map.get_player_pos(0),'Hobo')
 coins_pos = map.get_coins_pos(1)
 coins = [Coin(*pos) for pos in coins_pos]
 myMenu = Menu(screen)
+pauseMenu = Pause(screen)
+pauseMenu.set_visible(False)
 intButton = IntButton(player.get_x(),player.get_y()-60)
 
 run = True
@@ -76,9 +79,39 @@ while run:
             from_load = True
             myMenu.set_visible(False)
         if myMenu.get_play_btn().draw():
+            '''
+            player.reset_progress()
+            map = Maps()
+            world = World(map.load_world_from_file())
+            player = Player(*map.get_player_pos(0),'Hobo')
+            coins_pos = map.get_coins_pos(1)
+            coins = [Coin(*pos) for pos in coins_pos]
+            '''
             myMenu.set_visible(False)
+            
+            
             continue
-    else:
+    elif pause == True:
+        pauseMenu.set_visible(True)
+        title1 = Display('PAUSED', SCREEN_WIDTH // 2 - 190, SCREEN_HEIGHT // 2 - 200, 100)
+        if pauseMenu.get_exit_btn().draw():
+            run = False
+        if pauseMenu.get_play_btn().draw():
+            bg_img = pygame.image.load("../assets/bg.png")
+            bg_img = pygame.transform.scale(bg_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            pause =False
+            pauseMenu.set_visible(False)
+            print('play on pause menu')          
+            
+        if pauseMenu.get_menu_btn().draw():
+            bg_img = pygame.image.load("../assets/bg.png")
+            bg_img = pygame.transform.scale(bg_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            pauseMenu.set_visible(False)
+            myMenu.set_visible(True)
+            pause = False
+
+    elif pause == False:
+        pauseMenu.set_visible(False)
 
         for coin in coins:
             coin.counter += 1
@@ -97,49 +130,49 @@ while run:
         if player.get_cast() == 'Hobo':
             choose_class = Display('Choose your class!', 130,880,30)  
         if player.get_interact() == True:
-            item_felirat = Display(player.get_itemname(),player.get_x(),player.get_y()-80, 20)
-
-        
+            item_felirat = Display(player.get_itemname(),player.get_x(),player.get_y()-80, 20)        
         world.draw()
         player.update(SCREEN_HEIGHT, screen, world,coins)
         intButton.update(player.get_x(),player.get_y()-60, screen, player)
         
         # hozzáadtam a world-öt a player update metódusába és átadom itt azt is neki, innen kapja meg a tile-ek rect-jét a player
-        if from_load:
         
-            if player.get_exit_reached():
-                current_map = player.get_current_map() + 1
-                print('mukszik')
-                if current_map <= 4:
-                    coins_pos = map.get_coins_pos(current_map + 1)
-                    coins = [Coin(*pos) for pos in coins_pos]
-                    map.set_map(current_map)
-                    x = current_map
-                    cast = player.get_cast()
-                    world = World(map.load_world_from_file())
-                    player = Player(*map.get_player_pos(x), cast)
-                    player.set_current_map(current_map)
-                    player.load()
-                    player.save()
-                    player.set_exit_reached(False)
-            
-        else:
         
-            if player.get_exit_reached():
-                current_map += 1
-                if current_map <= 4:
-                    coins_pos = map.get_coins_pos(current_map + 1)
-                    coins = [Coin(*pos) for pos in coins_pos]
-                    map.set_map(current_map)
-                    x = current_map
-                    cast = player.get_cast()
-                    world = World(map.load_world_from_file())
-                    player = Player(*map.get_player_pos(x), cast)
-                    player.set_current_map(current_map)
-                    player.save()
-                    player.set_exit_reached(False)
     
-
+    if from_load:
+        
+        if player.get_exit_reached():
+            current_map = player.get_current_map() + 1
+            print('mukszik')
+            if current_map <= 4:
+                coins_pos = map.get_coins_pos(current_map + 1)
+                coins = [Coin(*pos) for pos in coins_pos]
+                map.set_map(current_map)
+                x = current_map
+                cast = player.get_cast()
+                world = World(map.load_world_from_file())
+                player = Player(*map.get_player_pos(x), cast)
+                player.set_current_map(current_map)
+                player.load()
+                player.save()
+                player.set_exit_reached(False)
+            
+    else:
+        
+        if player.get_exit_reached():
+            current_map += 1
+            if current_map <= 4:
+                coins_pos = map.get_coins_pos(current_map + 1)
+                coins = [Coin(*pos) for pos in coins_pos]
+                map.set_map(current_map)
+                x = current_map
+                cast = player.get_cast()
+                world = World(map.load_world_from_file())
+                player = Player(*map.get_player_pos(x), cast)
+                player.set_current_map(current_map)
+                player.save()
+                player.set_exit_reached(False)
+    
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -148,9 +181,16 @@ while run:
             if event.key == pygame.K_BACKSPACE:
                 player.set_xp(1)
             if event.key == pygame.K_ESCAPE:
-                
-                run = False
-
+                if  myMenu.get_visible() == False:
+                    if pause:
+                        pause = False
+                        bg_img = pygame.image.load("../assets/bg.png")
+                        bg_img = pygame.transform.scale(bg_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+                    else:
+                        pause = True
+                        bg_img = pygame.image.load("../assets/pausedbg.png")
+                        bg_img = pygame.transform.scale(bg_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            
             if event.key == pygame.K_h:
                 if player.get_hp() < player.get_max_hp():
                     player.set_hp(1)
