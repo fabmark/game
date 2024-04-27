@@ -1,6 +1,6 @@
 ---- Feladatok listája ----
 
-Menu, Save / Load - Márk - FÉLKÉSZ
+Menu, Save / Load - Márk - KÉSZ
 World - Alex - KÉSZ
 Player: Leveling - attributes (dnd?) (main stat +5, többi +1) - Marci - KÉSZ
 
