@@ -1,9 +1,0 @@
-class knight
-lvl 1
-xp 0
-hp 10
-armor 5
-str 3
-int 1
-char 2
-dex 2
