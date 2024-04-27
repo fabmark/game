@@ -92,8 +92,8 @@ while run:
         int_felirat = Display('Intelligence: ' + str(player.get_int()), 500,80,30)
         char_felirat = Display('Charisma: ' + str(player.get_char()), 650,50,30)
         dex_felirat = Display('Dexterity: ' + str(player.get_dex()), 650,80,30)
-        class_felirat =Display('Class: ' + (player.get_class()), 800,80,30)
-        if player.get_class() == 'Hobo':
+        class_felirat =Display('Class: ' + (player.get_cast()), 800,80,30)
+        if player.get_cast() == 'Hobo':
             choose_class = Display('Choose your class!', 130,880,30)  
         if player.get_interact() == True:
             item_felirat = Display(player.get_itemname(),player.get_x(),player.get_y()-80, 20)

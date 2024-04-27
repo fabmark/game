@@ -36,9 +36,12 @@ class Player():
 			self.images_right.append(img_right)
 			self.images_left.append(img_left)
 		self.idle_right = pygame.image.load(f'../assets/{cast}idle.png')
+		self.hurt_img = pygame.image.load(f'../assets/Knighthurt.png')
+		self.hurt_img = pygame.transform.scale(self.hurt_img, (30,50))
 		self.idle_right = pygame.transform.scale(self.idle_right, (30,50))
 		self.idle_left = pygame.transform.flip(self.idle_right, True, False)
 		self.image = self.idle_right
+		self.hurt = False
 		self.rect = self.image.get_rect()
 		self.rect.x = x
 		self.rect.y = y
@@ -53,15 +56,21 @@ class Player():
 		self.itemname = ''
 		self.__currency = 0
 		self.__inventory = []
+		self.dmgcd = 25
+		self.hurt_sound = pygame.mixer.Sound('../assets/damage_se.mp3')
+		self.hurt_sound.set_volume(0.3)
+		
 		
 		self.__str = 3
 		self.__dex = 2
 		self.__int = 1
 		self.__char = 2
 		self.__xp = 0
+		self.__armor = 5
 		self.__hp = 10
 		self.__mana = 10
-		self.__armor = 5
+		self.__max_mana = 10
+		self.__max_hp = 10
 
 
 		self.onground = False
