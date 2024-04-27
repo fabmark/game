@@ -156,21 +156,21 @@ while run:
             if event.key == pygame.K_e:
                 if player.get_interact() and player.get_itemname() == 'sword':
                     print("Sword equipped")
-                    player.set_class('Knight')
+                    player.set_cast('Knight')
                     player = Player(player.get_x(), player.get_y(), 'Knight')
                     for tile in list(world.tile_list):
                         if tile[2] == "sword" or tile[2] == "staff" or tile[2] == 'bow' or tile[2] == 'gate':
                             world.tile_list.remove(tile)
                 elif player.get_interact() and player.get_itemname() == 'bow':
                     print("bow equipped")
-                    player.set_class('Rogue')
+                    player.set_cast('Rogue')
                     player = Player(player.get_x(), player.get_y(), 'Rogue')
                     for tile in list(world.tile_list):
                         if tile[2] == "sword" or tile[2] == "staff" or tile[2] == 'bow' or tile[2] == 'gate':
                             world.tile_list.remove(tile)
                 elif player.get_interact() and player.get_itemname() == 'staff':
                     print("staff equipped")
-                    player.set_class('Wizard')
+                    player.set_cast('Wizard')
                     player = Player(player.get_x(), player.get_y(), 'Wizard')
                     for tile in list(world.tile_list):
                         if tile[2] == "sword" or tile[2] == "staff" or tile[2] == 'bow' or tile[2] == 'gate':

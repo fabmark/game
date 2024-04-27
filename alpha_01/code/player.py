@@ -205,6 +205,19 @@ class Player():
 	def pickup(self):
 		print('picked up:' + self.itemname)
 
+	def get_max_hp(self):
+		return self.__max_hp
+	
+	def set_max_hp(self,value):
+		self.__max_hp += value
+	
+	def get_max_mana(self):
+		return self.__max_mana
+	
+	def set_max_mana(self, value):
+		self.__max_mana += value
+
+
 	def load(self):
 		data = None
 
