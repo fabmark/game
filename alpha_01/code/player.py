@@ -82,7 +82,7 @@ class Player():
     #attributúmoknak majd kellenek getterek/setterek (pl. int) - Márk
 	def lvlup(self):		
 		
-		if self.get_class() == 'Knight':
+		if self.get_cast() == 'Knight':
 			self.__str += 3
 			self.__int += 1
 			self.__dex += 2
@@ -90,7 +90,7 @@ class Player():
 			self.__hp += 8
 			self.__mana += 3
 			self.lvl += 1
-		elif self.get_class() == 'Wizard':
+		elif self.get_cast() == 'Wizard':
 			self.__str += 1
 			self.__int += 4
 			self.__dex += 2
@@ -98,7 +98,7 @@ class Player():
 			self.__hp += 3
 			self.__mana += 10
 			self.lvl += 1
-		elif self.get_class() == 'Rogue':
+		elif self.get_cast() == 'Rogue':
 			self.__str += 2
 			self.__int += 1
 			self.__dex += 3
