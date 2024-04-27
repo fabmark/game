@@ -138,8 +138,12 @@ class Player():
 	def set_hp(self, value):
 		self.__hp += value   
 
-	def set_mana(self,value):
+	def set_mana(self, value):
+		self.__mana = value
+	
+	def increase_mana(self, value):
 		self.__mana += value
+
 	def get_mana(self):
 		return self.__mana
 	
@@ -149,10 +153,10 @@ class Player():
 	def set_xp(self, value):
 		self.__xp += value
 	
-	def set_class(self, value):
+	def set_cast(self, value):
 		self.__cast = value
 	
-	def get_class(self):
+	def get_cast(self):
 		return self.__cast
 	
 	def set_armor(self, value):
@@ -191,25 +195,28 @@ class Player():
 	
 	def pickup(self):
 		print('picked up:' + self.itemname)
-    
-    def load(self):
+
+	def load(self):
 		data = None
-		with open('../data/player_data.json', 'r') as file:
-			data = json.load(file)
-		
+
+		try:
+			with open('../data/player_data.json', 'r') as file:
+				data = json.load(file)
+		except OSError as e:
+			print(e.errno)
+
 		self.set_cast(data['class'])
 		self.set_lvl(data['level'])
 		self.set_xp(data['xp'])
 		self.set_hp(data['hp'])
-        self.set_mana(data['mana'])
+		self.set_mana(data['mana'])
 		self.set_armor(data['armor'])
 		self.set_str(data['str'])
 		self.set_dex(data['dex'])
 		self.set_int(data['int'])
 		self.set_char(data['char'])
 		self.set_current_map(data['map'])
-		
-	
+
 	def save(self):
 		file_path = '../data/player_data.json'
 
@@ -218,11 +225,11 @@ class Player():
 			"level": self.lvl,
 			"xp": self.__xp,
 			"hp": self.__hp,
-            "mana":self.__mana,
+			"mana": self.__mana,
 			"armor": self.__armor,
 			"str": self.__str,
 			"dex": self.__dex,
-			"int": self.__int,
+			"int": self.__int, 
 			"char": self.__char,
 			"map": self.__current_map
 		}
@@ -233,7 +240,8 @@ class Player():
 		else:
 			with open(file_path, 'a') as outfile:
 				json.dump(data, outfile, indent=4)
-	
+
+
 	def update(self,screen_height,screen,world,coins):
 		dx = 0
 		dy = 0
@@ -260,18 +268,28 @@ class Player():
 		if key[pygame.K_LEFT] == False and key[pygame.K_RIGHT] == False:
 			self.counter = 0
 			self.index = 0
-			if self.direction == 1:
-				self.image = self.idle_right
-			if self.direction == -1:
-				self.image = self.idle_left
+			if self.hurt == True:
+				self.image = self.hurt_img
+				self.hurt = False
+			else:
+				if self.direction == 1:
+					self.image = self.idle_right
+				if self.direction == -1:
+					self.image = self.idle_left
 				
 		if key[pygame.K_LEFT] == True and key[pygame.K_RIGHT] == True:
 			self.counter = 0
 			self.index = 0
-			if self.direction == 1:
-				self.image = self.idle_right
-			if self.direction == -1:
-				self.image = self.idle_left				
+			if self.hurt == True:
+				self.image = self.hurt_img
+				self.hurt = False
+			else:
+				if self.direction == 1:
+					self.image = self.idle_right
+				if self.direction == -1:
+					self.image = self.idle_left	
+
+					
         		
 		#anim
 		if self.counter > walk_cooldown: 
@@ -308,6 +326,7 @@ class Player():
 			#check for collision in x direction
 			if tile[2] == "entrance":
 				self.interact = False
+				
 				continue
 			elif tile[2] =="sword":
 				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):	
@@ -321,8 +340,9 @@ class Player():
 				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
 					self.interact = True
 					self.itemname = 'staff'					
-			elif tile[2] == "exit" or tile[2] == "spikes" or tile[2] == "blood" or tile[2] == "wall" or tile[2] == "ground" or tile[2] == 'gate' or tile[2] == 'trap':			
+			elif tile[2] == "exit" or tile[2] == "blood" or tile[2] == "wall" or tile[2] == "ground" or tile[2] == 'gate':			
 				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+					
 					dx = 0
 					#csekkolja h a pálya exit megvan-e találva - Márk
 					if tile[2] == "exit":
@@ -341,10 +361,87 @@ class Player():
 						self.vel_y = 0
 						# ezt írtam hozzá, hogy ha a talajjal érintkezik akkor igaz legyen az onground ami engedi ugrani.
 						self.onground = True
-			
+			elif tile[2] == "spikes" :
+				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+					dx = 0
 						
-										
-		
+				#check for collision in y direction
+				if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+					
+					#check if below the ground i.e. jumping
+					if self.vel_y < 0:
+						dy = tile[1].bottom - self.rect.top
+						self.vel_y = 0
+					#check if above the ground i.e. falling
+					elif self.vel_y >= 0:
+						dy = tile[1].top - self.rect.bottom
+						self.vel_y = 0
+						self.onground = True
+
+						if self.dmgcd <= 25 and self.dmgcd > 0:							
+							self.dmgcd -= 1
+						elif self.dmgcd == 0:
+							if self.get_hp()-(self.get_max_hp()//3) >= 0:
+								self.image = self.hurt_img
+								self.set_hp(-(self.get_max_hp()//3))
+								self.hurt = True
+								self.hurt_sound.play()
+								
+								self.dmgcd = 25
+							else:
+								self.set_hp(-self.get_hp())
+								self.image = self.hurt_img
+								self.hurt = True
+								self.hurt_sound.play()
+			elif tile[2] == "trap" :
+				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+					dx = 0
+
+					if self.dmgcd <= 25 and self.dmgcd > 0:							
+						self.dmgcd -= 1
+					elif self.dmgcd == 0:
+						if self.get_hp()-(self.get_max_hp()//3) >= 0:
+							self.image = self.hurt_img
+							self.set_hp(-(self.get_max_hp()//3))
+							self.hurt = True
+							self.dmgcd = 25
+							self.hurt_sound.play()
+						else:
+							self.set_hp(-self.get_hp())
+							self.image = self.hurt_img
+							self.hurt = True
+							self.hurt_sound.play()
+						
+				#check for collision in y direction
+				if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+					
+					#check if below the ground i.e. jumping
+					if self.vel_y < 0:
+						dy = tile[1].bottom - self.rect.top
+						self.vel_y = 0
+					#check if above the ground i.e. falling
+					elif self.vel_y >= 0:
+						dy = tile[1].top - self.rect.bottom
+						self.vel_y = 0
+
+						if self.dmgcd <= 25 and self.dmgcd > 0:							
+							self.dmgcd -= 1
+						elif self.dmgcd == 0:
+							if self.get_hp()-(self.get_max_hp()//3) >= 0:
+								self.image = self.hurt_img
+								self.set_hp(-(self.get_max_hp()//3))
+								self.hurt = True
+								self.dmgcd = 25
+								self.hurt_sound.play()
+							else:
+								self.set_hp(-self.get_hp())
+								self.image = self.hurt_img
+								self.hurt = True
+								self.hurt_sound.play()
+
+						# ezt írtam hozzá, hogy ha a talajjal érintkezik akkor igaz legyen az onground ami engedi ugrani.
+						self.onground = True
+
 		#update player coordinates
 		self.rect.x += dx
 		self.rect.y += dy

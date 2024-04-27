@@ -145,7 +145,14 @@ while run:
             if event.key == pygame.K_BACKSPACE:
                 player.set_xp(1)
             if event.key == pygame.K_ESCAPE:
+                
                 run = False
+
+            if event.key == pygame.K_h:
+                if player.get_hp() < player.get_max_hp():
+                    player.set_hp(1)
+                    
+                #player.set_hp(+10)
             if event.key == pygame.K_e:
                 if player.get_interact() and player.get_itemname() == 'sword':
                     print("Sword equipped")
