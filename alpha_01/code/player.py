@@ -1,4 +1,6 @@
 import pygame
+import os
+import json
 from pygame.locals import *
 from coin import Coin
 
@@ -189,7 +191,48 @@ class Player():
 	
 	def pickup(self):
 		print('picked up:' + self.itemname)
+    
+    def load(self):
+		data = None
+		with open('../data/player_data.json', 'r') as file:
+			data = json.load(file)
+		
+		self.set_cast(data['class'])
+		self.set_lvl(data['level'])
+		self.set_xp(data['xp'])
+		self.set_hp(data['hp'])
+        self.set_mana(data['mana'])
+		self.set_armor(data['armor'])
+		self.set_str(data['str'])
+		self.set_dex(data['dex'])
+		self.set_int(data['int'])
+		self.set_char(data['char'])
+		self.set_current_map(data['map'])
+		
+	
+	def save(self):
+		file_path = '../data/player_data.json'
 
+		data = {
+			"class": self.__cast,
+			"level": self.lvl,
+			"xp": self.__xp,
+			"hp": self.__hp,
+            "mana":self.__mana,
+			"armor": self.__armor,
+			"str": self.__str,
+			"dex": self.__dex,
+			"int": self.__int,
+			"char": self.__char,
+			"map": self.__current_map
+		}
+
+		if os.path.exists(file_path):
+			with open(file_path, 'w') as outfile:
+				json.dump(data, outfile, indent=4)
+		else:
+			with open(file_path, 'a') as outfile:
+				json.dump(data, outfile, indent=4)
 	
 	def update(self,screen_height,screen,world,coins):
 		dx = 0
