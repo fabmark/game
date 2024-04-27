@@ -70,7 +70,8 @@ while run:
             coins = [Coin(*pos) for pos in coins_pos]
             map.set_map(x)
             world = World(map.load_world_from_file())
-            player = Player(*map.get_player_pos(x))
+            cast = player.get_cast()
+            player = Player(*map.get_player_pos(x), cast)
             player.load()
             from_load = True
             myMenu.set_visible(False)
@@ -104,18 +105,19 @@ while run:
         intButton.update(player.get_x(),player.get_y()-60, screen, player)
         
         # hozzáadtam a world-öt a player update metódusába és átadom itt azt is neki, innen kapja meg a tile-ek rect-jét a player
-        
         if from_load:
         
             if player.get_exit_reached():
                 current_map = player.get_current_map() + 1
+                print('mukszik')
                 if current_map <= 4:
                     coins_pos = map.get_coins_pos(current_map + 1)
                     coins = [Coin(*pos) for pos in coins_pos]
                     map.set_map(current_map)
                     x = current_map
+                    cast = player.get_cast()
                     world = World(map.load_world_from_file())
-                    player = Player(*map.get_player_pos(x))
+                    player = Player(*map.get_player_pos(x), cast)
                     player.set_current_map(current_map)
                     player.load()
                     player.save()
@@ -130,8 +132,9 @@ while run:
                     coins = [Coin(*pos) for pos in coins_pos]
                     map.set_map(current_map)
                     x = current_map
+                    cast = player.get_cast()
                     world = World(map.load_world_from_file())
-                    player = Player(*map.get_player_pos(x))
+                    player = Player(*map.get_player_pos(x), cast)
                     player.set_current_map(current_map)
                     player.save()
                     player.set_exit_reached(False)

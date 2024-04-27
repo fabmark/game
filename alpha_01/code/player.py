@@ -30,12 +30,12 @@ class Player():
 		self.counter = 0		
 		self.__cast = cast
 		for num in range (1, 8):			
-			img_right = pygame.image.load(f'../assets/{cast}{num}.png')
+			img_right = pygame.image.load(f'../assets/{self.__cast}{num}.png')
 			img_right = pygame.transform.scale(img_right, (30, 50))
 			img_left = pygame.transform.flip(img_right, True, False)			
 			self.images_right.append(img_right)
 			self.images_left.append(img_left)
-		self.idle_right = pygame.image.load(f'../assets/{cast}idle.png')
+		self.idle_right = pygame.image.load(f'../assets/{self.__cast}idle.png')
 		self.hurt_img = pygame.image.load(f'../assets/Knighthurt.png')
 		self.hurt_img = pygame.transform.scale(self.hurt_img, (30,50))
 		self.idle_right = pygame.transform.scale(self.idle_right, (30,50))
@@ -224,20 +224,21 @@ class Player():
 		try:
 			with open('../data/player_data.json', 'r') as file:
 				data = json.load(file)
+			self.set_cast(data['class'])
+			self.set_lvl(data['level'])
+			self.set_xp(data['xp'])
+			self.set_hp(data['hp'])
+			self.set_mana(data['mana'])
+			self.set_armor(data['armor'])
+			self.set_str(data['str'])
+			self.set_dex(data['dex'])
+			self.set_int(data['int'])
+			self.set_char(data['char'])
+			self.set_current_map(data['map'])
 		except OSError as e:
 			print(e.errno)
 
-		self.set_cast(data['class'])
-		self.set_lvl(data['level'])
-		self.set_xp(data['xp'])
-		self.set_hp(data['hp'])
-		self.set_mana(data['mana'])
-		self.set_armor(data['armor'])
-		self.set_str(data['str'])
-		self.set_dex(data['dex'])
-		self.set_int(data['int'])
-		self.set_char(data['char'])
-		self.set_current_map(data['map'])
+		
 
 	def save(self):
 		file_path = '../data/player_data.json'
