@@ -1,5 +1,6 @@
 import pygame
 from coin import Coin
+from menu import Button
 
 screen_width = 990
 screen_height = 990
