@@ -8,6 +8,7 @@ from coin import Coin
 from menu import *
 from player import Arrow
 from player import Firebolt
+from enemies import Goblin
 
 pygame.init()
 pygame.mixer.init()
@@ -42,6 +43,7 @@ class Display():
 map = Maps()
 world = World(map.load_world_from_file())
 player = Player(*map.get_player_pos(0),'Hobo')
+goblin = Goblin(*map.get_enemy_pos(1))
 coins_pos = map.get_coins_pos(1)
 coins = [Coin(*pos) for pos in coins_pos]
 myMenu = Menu(screen)
@@ -134,9 +136,10 @@ while run:
             item_felirat = Display(player.get_itemname(),player.get_x(),player.get_y()-80, 20)        
         world.draw()
         player.update(SCREEN_HEIGHT, screen, world,coins)
-        player.arrow_group.update()
+        goblin.update(SCREEN_HEIGHT, screen, world)
+        player.arrow_group.update(world)
         player.arrow_group.draw(screen)
-        player.firebolt_group.update()
+        player.firebolt_group.update(world)
         player.firebolt_group.draw(screen)
         intButton.update(player.get_x(),player.get_y()-60, screen, player)
         
@@ -174,6 +177,7 @@ while run:
                 cast = player.get_cast()
                 world = World(map.load_world_from_file())
                 player = Player(*map.get_player_pos(x), cast)
+                goblin = Goblin(*map.get_enemy_pos(current_map + 1))
                 player.set_current_map(current_map)
                 player.save()
                 player.set_exit_reached(False)

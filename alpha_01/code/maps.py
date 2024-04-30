@@ -18,6 +18,12 @@ class Maps():
         for elem in player_pos:
             if elem[0] == (value + 1):
                 return elem[1]
+            
+    def get_enemy_pos(self, value):
+        enemy_pos = [(1,(60, 500)), (1,(90, 500)), (2,(50,200)),(2,(80,200))]
+        for elem in enemy_pos:
+            if elem[0] == (value + 1):
+                return elem[1]
 
     def get_coins_pos(self, value):
         coins_pos = [(1,(60, 500)), (1,(90, 500)), (2,(50,200)),(2,(80,200))]

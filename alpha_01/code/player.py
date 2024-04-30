@@ -41,10 +41,15 @@ class Arrow(pygame.sprite.Sprite):
         self.direction = direction
         self.speed = 10
 
-    def update(self):
+    def update(self, world):
         self.rect.x += self.speed * self.direction
         if self.rect.right < 0 or self.rect.left > 990:
             self.kill()
+        for tile in world.tile_list:
+            if tile[2] in ["wall", "ground", "gate", "trap", "spikes", ]:
+                if tile[1].colliderect(self.rect):
+                    self.kill()
+                    break
 
 
 class Firebolt(pygame.sprite.Sprite):
@@ -66,10 +71,15 @@ class Firebolt(pygame.sprite.Sprite):
         self.direction = direction
         self.speed = 15
 
-    def update(self):
+    def update(self, world):
         self.rect.x += self.speed * self.direction
         if self.rect.right < 0 or self.rect.left > 990:
             self.kill()
+        for tile in world.tile_list:
+            if tile[2] in ["wall", "ground", "gate", "trap", "spikes", ]:
+                if tile[1].colliderect(self.rect):
+                    self.kill()
+                    break
 
 class Player():
     def __init__(self, x, y, cast):
@@ -87,20 +97,20 @@ class Player():
         self.__cast = cast
         for num in range(1, 8):
             img_right = pygame.image.load(f'../assets/{self.__cast}{num}.png')
-            img_right = pygame.transform.scale(img_right, (30, 50))
+            img_right = pygame.transform.scale(img_right, (45, 75))
             img_left = pygame.transform.flip(img_right, True, False)
             self.images_right.append(img_right)
             self.images_left.append(img_left)
         for num in range(0, 4):
             img_attack_right = pygame.image.load(f'../assets/{self.__cast}attack{num}.png')
-            img_attack_right = pygame.transform.scale(img_attack_right, (30, 50))
+            img_attack_right = pygame.transform.scale(img_attack_right, (45, 75))
             img_attack_left = pygame.transform.flip(img_attack_right, True, False)
             self.images_attack_right.append(img_attack_right)
             self.images_attack_left.append(img_attack_left)
         self.idle_right = pygame.image.load(f'../assets/{self.__cast}idle.png')
         self.hurt_img = pygame.image.load(f'../assets/Knighthurt.png')
-        self.hurt_img = pygame.transform.scale(self.hurt_img, (30, 50))
-        self.idle_right = pygame.transform.scale(self.idle_right, (30, 50))
+        self.hurt_img = pygame.transform.scale(self.hurt_img, (45, 75))
+        self.idle_right = pygame.transform.scale(self.idle_right, (45, 75))
         self.idle_left = pygame.transform.flip(self.idle_right, True, False)
         self.image = self.idle_right
         self.hurt = False
@@ -366,7 +376,7 @@ class Player():
         # get keypresses
         key = pygame.key.get_pressed()
         if key[pygame.K_UP] and self.onground == True:
-            self.vel_y = -16
+            self.vel_y = -20
             self.onground = False
 
         # átírtam az ugrást, hogy a collisiont érzékelje és csak akkor ugorhasson, ha a talajjal ütközik
