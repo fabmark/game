@@ -6,6 +6,8 @@ from player import Player
 from player import IntButton
 from coin import Coin
 from menu import *
+from player import Arrow
+from player import Firebolt
 
 pygame.init()
 pygame.mixer.init()
@@ -56,7 +58,6 @@ current_map = 0
 from_load = False
 
 while run:
-    
     clock.tick(fps)
     screen.blit(bg_img, (0, 0))
     
@@ -133,6 +134,10 @@ while run:
             item_felirat = Display(player.get_itemname(),player.get_x(),player.get_y()-80, 20)        
         world.draw()
         player.update(SCREEN_HEIGHT, screen, world,coins)
+        player.arrow_group.update()
+        player.arrow_group.draw(screen)
+        player.firebolt_group.update()
+        player.firebolt_group.draw(screen)
         intButton.update(player.get_x(),player.get_y()-60, screen, player)
         
         # hozzáadtam a world-öt a player update metódusába és átadom itt azt is neki, innen kapja meg a tile-ek rect-jét a player
