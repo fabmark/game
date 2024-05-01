@@ -20,10 +20,13 @@ class Maps():
                 return elem[1]
             
     def get_enemy_pos(self, value):
-        enemy_pos = [(1,(60, 500)), (1,(90, 500)), (2,(50,200)),(2,(80,200))]
+        enemy_pos = [(1,(700,400)), (2,(140,500)), (2,(300,500)), (3,(100,500)),(3,(200,500)),(3,(100,500)),(4,(600,500)),(5,(400,500))]
+        arr = []
         for elem in enemy_pos:
-            if elem[0] == (value + 1):
-                return elem[1]
+            if elem[0] == value:
+                arr.append(elem[1])
+        return arr
+
 
     def get_coins_pos(self, value):
         coins_pos = [(1,(60, 500)), (1,(90, 500)), (2,(50,200)),(2,(80,200))]

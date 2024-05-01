@@ -40,7 +40,7 @@ class Arrow(pygame.sprite.Sprite):
         if self.rect.right < 0 or self.rect.left > 990:
             self.kill()
         for tile in world.tile_list:
-            if tile[2] in ["wall", "ground", "gate", "trap", "spikes", ]:
+            if tile[2] in ["wall", "ground", "gate", "trap", "spikes", "entrance" ]:
                 if tile[1].colliderect(self.rect):
                     self.kill()
                     break
@@ -64,10 +64,11 @@ class Firebolt(pygame.sprite.Sprite):
         if self.rect.right < 0 or self.rect.left > 990:
             self.kill()
         for tile in world.tile_list:
-            if tile[2] in ["wall", "ground", "gate", "trap", "spikes", ]:
+            if tile[2] in ["wall", "ground", "gate", "trap", "spikes", "entrance" ]:
                 if tile[1].colliderect(self.rect):
                     self.kill()
                     break
+        
 
 class Player():
     def __init__(self, x, y, cast):
@@ -96,7 +97,7 @@ class Player():
             self.images_attack_right.append(img_attack_right)
             self.images_attack_left.append(img_attack_left)
         self.idle_right = pygame.image.load(f'../assets/{self.__cast}idle.png')
-        self.hurt_img = pygame.image.load(f'../assets/Knighthurt.png')
+        self.hurt_img = pygame.image.load(f'../assets/{self.__cast}hurt.png')
         self.hurt_img = pygame.transform.scale(self.hurt_img, (45, 75))
         self.idle_right = pygame.transform.scale(self.idle_right, (45, 75))
         self.idle_left = pygame.transform.flip(self.idle_right, True, False)
@@ -321,17 +322,21 @@ class Player():
     arrow_group = pygame.sprite.Group()
     firebolt_group = pygame.sprite.Group()
     
-    def attack(self):
+    def attack(self, screen):
         if self.attacking == True:
-            if self.direction == 1:
-                self.attack_range = pygame.Rect(self.rect.x + self.rect.width, self.rect.y, 30, self.rect.height)
-            elif self.direction == -1:
-                self.attack_range = pygame.Rect(self.rect.x, self.rect.y, 30, self.rect.height)
+            if self.get_cast() == 'Knight':
+                if self.attack_index == 4 or self.attack_index == 3:
+                    if self.direction == 1:
+                        self.attack_range = pygame.Rect(self.rect.x + self.rect.width, self.rect.y, 30, self.rect.height-20)
+                        pygame.draw.rect(screen, (255, 255, 255), self.attack_range, 2)
+                    elif self.direction == -1:
+                        self.attack_range = pygame.Rect(self.rect.x-30, self.rect.y, 30, self.rect.height-20)
+                        pygame.draw.rect(screen, (255, 255, 255), self.attack_range, 2)
 
             if self.attack_index >=len(self.images_attack_right) or self.attack_index >= len(self.images_attack_left) :
                 self.attack_index = 0
                 if self.get_cast() == 'Rogue':
-                        arrow = Arrow(self.rect.x + self.rect.width, self.rect.centery-15, self.direction)
+                        arrow = Arrow(self.rect.x + self.rect.width-10, self.rect.centery-15, self.direction)
                         self.arrow_group.add(arrow)
                 elif self.get_cast() == 'Wizard':
                         firebolt = Firebolt(self.rect.x + self.rect.width, self.rect.centery-15, self.direction)
@@ -356,7 +361,7 @@ class Player():
         dy = 0
         walk_cooldown = 5
         if self.attacking:
-        	self.attack()
+        	self.attack(screen)
 
         if self.dmgcd > 0:
             self.dmgcd -=1
@@ -422,9 +427,9 @@ class Player():
             self.vel_y = 10
         dy += self.vel_y
 
-        if self.rect.bottom > screen_height:
-            self.rect.bottom = screen_height
-            dy = 0
+        #if self.rect.bottom > screen_height:
+            #self.rect.bottom = screen_height
+            #dy = 0
 
         # draw player onto screen
         screen.blit(self.image, self.rect)
@@ -575,4 +580,3 @@ class Player():
             self.lvlup()
         if self.get_xp() >= 40 and self.get_lvl() < 5:
             self.lvlup()
-

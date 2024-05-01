@@ -43,14 +43,18 @@ class Display():
 map = Maps()
 world = World(map.load_world_from_file())
 player = Player(*map.get_player_pos(0),'Hobo')
-goblin = Goblin(*map.get_enemy_pos(1))
+enemy_pos = map.get_enemy_pos(1)
 coins_pos = map.get_coins_pos(1)
 coins = [Coin(*pos) for pos in coins_pos]
 myMenu = Menu(screen)
 pauseMenu = Pause(screen)
 pauseMenu.set_visible(False)
 intButton = IntButton(player.get_x(),player.get_y()-60)
-
+goblins_group = pygame.sprite.Group()
+#goblin1 = Goblin(*map.get_enemy_pos(1))
+#goblin2 = Goblin(*map.get_enemy_pos(2))
+goblins_group.add([Goblin(*pos) for pos in enemy_pos])
+#goblins_group.add(goblin2)
 run = True
 '''
 update_count = 0
@@ -60,6 +64,7 @@ current_map = 0
 from_load = False
 
 while run:
+    print(player.get_x(),' , ',player.get_y())
     clock.tick(fps)
     screen.blit(bg_img, (0, 0))
     
@@ -131,12 +136,13 @@ while run:
         dex_felirat = Display('Dexterity: ' + str(player.get_dex()), 650,80,30)
         class_felirat =Display('Class: ' + (player.get_cast()), 800,80,30)
         if player.get_cast() == 'Hobo':
-            choose_class = Display('Choose your class!', 130,880,30)  
+            choose_class = Display('Choose your class!', 130,880,30)   
         if player.get_interact() == True:
             item_felirat = Display(player.get_itemname(),player.get_x(),player.get_y()-80, 20)        
         world.draw()
         player.update(SCREEN_HEIGHT, screen, world,coins)
-        goblin.update(SCREEN_HEIGHT, screen, world)
+        goblins_group.update(SCREEN_HEIGHT, screen, world, player.firebolt_group, player.arrow_group, player)
+        goblins_group.draw(screen)
         player.arrow_group.update(world)
         player.arrow_group.draw(screen)
         player.firebolt_group.update(world)
@@ -177,7 +183,11 @@ while run:
                 cast = player.get_cast()
                 world = World(map.load_world_from_file())
                 player = Player(*map.get_player_pos(x), cast)
-                goblin = Goblin(*map.get_enemy_pos(current_map + 1))
+                player.arrow_group.empty()
+                player.firebolt_group.empty()
+                goblins_group.empty()
+                enemy_pos = map.get_enemy_pos(current_map+1)
+                goblins_group.add([Goblin(*pos) for pos in enemy_pos])
                 player.set_current_map(current_map)
                 player.save()
                 player.set_exit_reached(False)
