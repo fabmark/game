@@ -25,19 +25,13 @@ class IntButton():
 class Arrow(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
         pygame.sprite.Sprite.__init__(self)
-        if direction == 1:
-            self.image = pygame.image.load('../assets/arrow.png')
-            self.image = pygame.transform.scale(self.image, (25, 10))
-            self.rect = self.image.get_rect()
-            self.rect.x = x
-            self.rect.y = y
+        self.image = pygame.image.load('../assets/arrow.png')
+        self.image = pygame.transform.scale(self.image, (25, 10))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
         if direction == -1:
-            self.image = pygame.image.load('../assets/arrow.png')
-            self.image = pygame.transform.scale(self.image, (25, 10))
             self.image = pygame.transform.flip(self.image, True, False)
-            self.rect = self.image.get_rect()
-            self.rect.x = x
-            self.rect.y = y
         self.direction = direction
         self.speed = 10
 
@@ -55,19 +49,13 @@ class Arrow(pygame.sprite.Sprite):
 class Firebolt(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
         pygame.sprite.Sprite.__init__(self)
-        if direction == 1:
-            self.image = pygame.image.load('../assets/firebolt.png')
-            self.image = pygame.transform.scale(self.image, (30, 20))
-            self.rect = self.image.get_rect()
-            self.rect.x = x
-            self.rect.y = y
+        self.image = pygame.image.load('../assets/firebolt.png')
+        self.image = pygame.transform.scale(self.image, (30, 20))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
         if direction == -1:
-            self.image = pygame.image.load('../assets/firebolt.png')
-            self.image = pygame.transform.scale(self.image, (30, 20))
             self.image = pygame.transform.flip(self.image, True, False)
-            self.rect = self.image.get_rect()
-            self.rect.x = x
-            self.rect.y = y
         self.direction = direction
         self.speed = 15
 
@@ -343,10 +331,10 @@ class Player():
             if self.attack_index >=len(self.images_attack_right) or self.attack_index >= len(self.images_attack_left) :
                 self.attack_index = 0
                 if self.get_cast() == 'Rogue':
-                        arrow = Arrow(self.rect.x + self.rect.width, self.rect.centery, self.direction)
+                        arrow = Arrow(self.rect.x + self.rect.width, self.rect.centery-15, self.direction)
                         self.arrow_group.add(arrow)
                 elif self.get_cast() == 'Wizard':
-                        firebolt = Firebolt(self.rect.x + self.rect.width, self.rect.centery, self.direction)
+                        firebolt = Firebolt(self.rect.x + self.rect.width, self.rect.centery-15, self.direction)
                         self.firebolt_group.add(firebolt)
                 self.attacking = False
                 self.attack_range = pygame.Rect(0, 0, 0, 0)
@@ -587,3 +575,4 @@ class Player():
             self.lvlup()
         if self.get_xp() >= 40 and self.get_lvl() < 5:
             self.lvlup()
+
