@@ -25,6 +25,7 @@ class World():
         staff_img = pygame.image.load('../assets/staff.png')
         blood_img = pygame.image.load('../assets/blood.png')
         gate_img = pygame.image.load('../assets/exit_btn.png')
+        mobwall_img = pygame.image.load('../assets/mobwall.png')
 
         row_count = 0
         # raktam "type-okat" ide, csak azért h a pálya végét könnyebb legyen megkülönböztetni - Márk
@@ -107,6 +108,13 @@ class World():
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect, "exit")
+                    self.tile_list.append(tile)
+                if tile == 'M':
+                    img = pygame.transform.scale(mobwall_img, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect, "M")
                     self.tile_list.append(tile)
                 col_count += 1
             row_count += 1

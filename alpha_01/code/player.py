@@ -328,12 +328,10 @@ class Player():
                 if self.attack_index == 4 or self.attack_index == 3:
                     if self.direction == 1:
                         self.attack_range = pygame.Rect(self.rect.x + self.rect.width, self.rect.y, 30, self.rect.height-20)
-                        pygame.draw.rect(screen, (255, 255, 255), self.attack_range, 2)
                     elif self.direction == -1:
                         self.attack_range = pygame.Rect(self.rect.x-30, self.rect.y, 30, self.rect.height-20)
-                        pygame.draw.rect(screen, (255, 255, 255), self.attack_range, 2)
 
-            if self.attack_index >=len(self.images_attack_right) or self.attack_index >= len(self.images_attack_left) :
+            if self.attack_index >=len(self.images_attack_right) or self.attack_index >= len(self.images_attack_left):
                 self.attack_index = 0
                 if self.get_cast() == 'Rogue':
                         arrow = Arrow(self.rect.x + self.rect.width-10, self.rect.centery-15, self.direction)
@@ -356,7 +354,7 @@ class Player():
                 self.attack_counter = 0
 
 
-    def update(self, screen_height, screen, world, coins):
+    def update(self, screen_height, screen, world, coins, goblins_group):
         dx = 0
         dy = 0
         walk_cooldown = 5
@@ -434,7 +432,7 @@ class Player():
         # draw player onto screen
         screen.blit(self.image, self.rect)
 
-        # pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
+        #pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
 
         # check for collision
         # a collision egy az egyben jó volt, csak elöször véletlen a lvlup()-ba raktam XD
@@ -555,6 +553,8 @@ class Player():
                         # ezt írtam hozzá, hogy ha a talajjal érintkezik akkor igaz legyen az onground ami engedi ugrani.
                         self.onground = True
 
+        
+
 
         # update player coordinates
         self.rect.x += dx
@@ -580,3 +580,20 @@ class Player():
             self.lvlup()
         if self.get_xp() >= 40 and self.get_lvl() < 5:
             self.lvlup()
+
+        for goblin in goblins_group:
+            if goblin.attack_range.colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                if goblin.attack_index == 1 or goblin.attack_index == 2:
+                    if self.dmgcd == 0:
+                        if self.get_hp() - 3 >= 0:
+                            self.image = self.hurt_img
+                            self.set_hp(-3)
+                            self.hurt = True
+                            self.dmgcd = 50
+                            self.hurt_sound.play()
+                        else:
+                            self.set_hp(-self.get_hp())
+                            self.image = self.hurt_img
+                            self.hurt = True
+                            self.hurt_sound.play()
+

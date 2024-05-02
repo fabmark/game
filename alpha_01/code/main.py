@@ -64,7 +64,6 @@ current_map = 0
 from_load = False
 
 while run:
-    print(player.get_x(),' , ',player.get_y())
     clock.tick(fps)
     screen.blit(bg_img, (0, 0))
     
@@ -140,7 +139,7 @@ while run:
         if player.get_interact() == True:
             item_felirat = Display(player.get_itemname(),player.get_x(),player.get_y()-80, 20)        
         world.draw()
-        player.update(SCREEN_HEIGHT, screen, world,coins)
+        player.update(SCREEN_HEIGHT, screen, world,coins,goblins_group)
         goblins_group.update(SCREEN_HEIGHT, screen, world, player.firebolt_group, player.arrow_group, player)
         goblins_group.draw(screen)
         player.arrow_group.update(world)
