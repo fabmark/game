@@ -3,6 +3,8 @@ import os
 import json
 from pygame.locals import *
 from coin import Coin
+from Projectiles import Arrow
+from Projectiles import Firebolt
 
 
 class IntButton():
@@ -22,52 +24,7 @@ class IntButton():
         self.rect.x = dx
         self.rect.y = dy
 
-class Arrow(pygame.sprite.Sprite):
-    def __init__(self, x, y, direction):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('../assets/arrow.png')
-        self.image = pygame.transform.scale(self.image, (25, 10))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        if direction == -1:
-            self.image = pygame.transform.flip(self.image, True, False)
-        self.direction = direction
-        self.speed = 10
 
-    def update(self, world):
-        self.rect.x += self.speed * self.direction
-        if self.rect.right < 0 or self.rect.left > 990:
-            self.kill()
-        for tile in world.tile_list:
-            if tile[2] in ["wall", "ground", "gate", "trap", "spikes", "entrance" ]:
-                if tile[1].colliderect(self.rect):
-                    self.kill()
-                    break
-
-
-class Firebolt(pygame.sprite.Sprite):
-    def __init__(self, x, y, direction):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('../assets/firebolt.png')
-        self.image = pygame.transform.scale(self.image, (30, 20))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        if direction == -1:
-            self.image = pygame.transform.flip(self.image, True, False)
-        self.direction = direction
-        self.speed = 15
-
-    def update(self, world):
-        self.rect.x += self.speed * self.direction
-        if self.rect.right < 0 or self.rect.left > 990:
-            self.kill()
-        for tile in world.tile_list:
-            if tile[2] in ["wall", "ground", "gate", "trap", "spikes", "entrance" ]:
-                if tile[1].colliderect(self.rect):
-                    self.kill()
-                    break
         
 
 class Player():
@@ -425,10 +382,6 @@ class Player():
             self.vel_y = 10
         dy += self.vel_y
 
-        #if self.rect.bottom > screen_height:
-            #self.rect.bottom = screen_height
-            #dy = 0
-
         # draw player onto screen
         screen.blit(self.image, self.rect)
 
@@ -488,8 +441,6 @@ class Player():
                         self.vel_y = 0
                         self.onground = True
 
-                        #if self.dmgcd <= 25 and self.dmgcd > 0:
-                            #self.dmgcd -= 1
                         if self.dmgcd <= 0:
                             if self.get_hp() - (self.get_max_hp() // 3) >= 0:
                                 self.image = self.hurt_img
@@ -507,8 +458,6 @@ class Player():
                 if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
                     dx = 0
 
-                    #if self.dmgcd <= 25 and self.dmgcd > 0:
-                        #self.dmgcd -= 1
                     if self.dmgcd == 0:
                         if self.get_hp() - (self.get_max_hp() // 3) >= 0:
                             self.image = self.hurt_img
@@ -534,8 +483,6 @@ class Player():
                         dy = tile[1].top - self.rect.bottom
                         self.vel_y = 0
 
-                        #if self.dmgcd <= 25 and self.dmgcd > 0:
-                            #self.dmgcd -= 1
                         if self.dmgcd == 0:
                             if self.get_hp() - (self.get_max_hp() // 3) >= 0:
                                 self.image = self.hurt_img
