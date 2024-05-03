@@ -12,11 +12,6 @@ pygame.display.set_caption("Inventory")
 bg_img = pygame.image.load("../assets/inventory.png")
 bg_img = pygame.transform.scale(bg_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# Colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-
-
 class Item:
     def __init__(self, name, image):
         self.name = name
