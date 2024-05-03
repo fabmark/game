@@ -5,6 +5,7 @@ from pygame.locals import *
 from coin import Coin
 from projectiles import Arrow
 from projectiles import Firebolt
+from item import *
 
 
 class IntButton():
@@ -73,6 +74,7 @@ class Player():
         self.itemname = ''
         self.__currency = 0
         self.__inventory = []
+        self.__equipment = []
         self.dmgcd = 0
         self.hurt_sound = pygame.mixer.Sound('../assets/damage_se.mp3')
         self.hurt_sound.set_volume(0.3)
@@ -233,6 +235,58 @@ class Player():
     def set_max_mana(self, value):
         self.__max_mana += value
 
+    def add_to_inventory(self, item):
+        self.__inventory.append(item)
+
+    def equip_item(self, item):
+        self.__equipment.append(item)
+        for itm in self.__equipment:
+            #azért van itt evvel a metódussal a csekkolás mert az == nem működik objectekre
+            if itm.__eq__(item):
+                match itm.get_first_attribute():
+                    case 'str': self.__str += itm.get_value()
+                    case 'dex': self.__dex += itm.get_value()
+                    case 'int': self.__int += itm.get_value()
+                    case 'char': self.__char += itm.get_value()
+                    case 'hp': self.__max_hp += itm.get_value()
+                    case 'mana': self.__mana += itm.get_value() 
+                    case 'armor': self.__armor += itm.get_value()
+                
+                match itm.get_second_attribute():
+                    case 'str': self.__str += itm.get_value()
+                    case 'dex': self.__dex += itm.get_value()
+                    case 'int': self.__int += itm.get_value()
+                    case 'char': self.__char += itm.get_value()
+                    case 'hp': self.__max_hp += itm.get_value()
+                    case 'mana': self.__mana += itm.get_value() 
+                    case 'armor': self.__armor += itm.get_value()
+    
+    def unequip_item(self, item):
+        
+        for itm in self.__equipment:
+            #azért van itt evvel a metódussal a csekkolás mert az == nem működik objectekre
+            if itm.__eq__(item):
+                match itm.get_first_attribute():
+                    case 'str': self.__str -= itm.get_value()
+                    case 'dex': self.__dex -= itm.get_value()
+                    case 'int': self.__int -= itm.get_value()
+                    case 'char': self.__char -= itm.get_value()
+                    case 'hp': self.__max_hp -= itm.get_value()
+                    case 'mana': self.__mana -= itm.get_value() 
+                    case 'armor': self.__armor -= itm.get_value()
+                
+                match itm.get_second_attribute():
+                    case 'str': self.__str -= itm.get_value()
+                    case 'dex': self.__dex -= itm.get_value()
+                    case 'int': self.__int -= itm.get_value()
+                    case 'char': self.__char -= itm.get_value()
+                    case 'hp': self.__max_hp -= itm.get_value()
+                    case 'mana': self.__mana -= itm.get_value() 
+                    case 'armor': self.__armor -= itm.get_value()
+        
+        self.__equipment.remove(item)
+
+
     def load(self):
         data = None
 
@@ -276,6 +330,7 @@ class Player():
         else:
             with open(file_path, 'a') as outfile:
                 json.dump(data, outfile, indent=4)
+    
     arrow_group = pygame.sprite.Group()
     firebolt_group = pygame.sprite.Group()
     
