@@ -3,8 +3,8 @@ import os
 import json
 from pygame.locals import *
 from coin import Coin
-from Projectiles import Arrow
-from Projectiles import Firebolt
+from projectiles import Arrow
+from projectiles import Firebolt
 
 
 class IntButton():
@@ -316,8 +316,8 @@ class Player():
         dy = 0
         walk_cooldown = 5
         if self.attacking:
-        	self.attack(screen)
-
+            self.attack(screen)
+        
         if self.dmgcd > 0:
             self.dmgcd -=1
 
